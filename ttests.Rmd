@@ -1,0 +1,189 @@
+---
+title: "T-tests"
+output: html_notebook
+---
+
+```{r echo=F}
+##note that you need RStudio 1.2 + to run the python code below
+
+if(!require(reticulate)){install.packages("reticulate")}
+##note that you (might?) need to install anaconda specifically so that you can call python (3.7)
+library(reticulate)
+
+## For notebook management
+library(knitr) 
+
+## NOTE - you need to use opts_knit for setting the directory if you are using a markdown or notebook. 
+this.root.dir = "C:/Users/nt906822/OneDrive - University of Reading/Github/psychOpenStatsbook/"
+opts_knit$set(root.dir = this.root.dir)
+
+##if not using a markdown or notebook, use the following
+setwd("C:/Users/nt906822/OneDrive - University of Reading/Github/psychOpenStatsbook/")
+
+
+```
+
+
+T-tests are useful when we want to make comparisons between two conditions. These can either be <b>between
+groups</b> who are in different conditions, or <b>within groups</b> for participants who experience both conditions. 
+
+Let's work on t-tests for Cats and Dogs first. For this section, we are going to imagine that we are investigating whether cats or dogs are <b>taller</b>. This is a <b>between-subjects</b> or <b>independent samples</b> t-test. Here's the raw data (in cm):
+
+```{r echo=F}
+cat_dog_data <- read.csv("cats_dogs_height.csv")
+cat_dog_data
+```
+
+Before we do anything else, let's check whether the dogs are taller than the cats (which is what we'd expect). Let's get the means and standard deviations for each animal.
+
+-----
+<div id="means_div">
+  <button class="btn btn-primary hide_show">SPSS</button>
+  <button class="btn btn-primary hide_show">R</button>
+  <button class="btn btn-primary hide_show">Python</button>
+  <div class="spss_div">
+## Mean using SPSS
+  </div>
+  <div class="r_div">
+## Mean using R
+  
+```{r}
+## let's load the data and separate it
+
+cat_dog_data <- read.csv("cats_dogs_height.csv")
+cat_data = cat_dog_data$height[cat_dog_data$animal == "cat"]
+dog_data = cat_dog_data$height[cat_dog_data$animal == "dog"]
+```
+
+You'll see above a couple of steps to prepare the data for us getting the mean and standard deviations for the cat and dog data separately. Let's get the means for each:
+
+```{r}
+mean(cat_data)
+```
+
+```{r}
+mean(dog_data)
+```
+
+  </div>
+  <div class="python_div">
+## Mean using python
+
+First, let's prepare the data by loading the relevant packages and storing the data into a dataframe using the <b>pandas</b> package:
+
+```{python}
+import os
+os.chdir("C:/Users/nt906822/OneDrive - University of Reading/Github/psychOpenStatsbook/")
+import statistics   # for it's function "mean"
+import pandas as pd # to read the csv into a dataframe
+
+cat_dog_data = pd.read_csv('cats_dogs_height.csv')
+cat_data = cat_dog_data["height"][cat_dog_data["animal"] == "cat"]
+dog_data = cat_dog_data["height"][cat_dog_data["animal"] == "dog"]
+
+```
+
+Now we can focus on getting the mean height for the cats and dogs. 
+
+Let's start with cats
+
+```{python}
+statistics.mean(cat_data)
+```
+```{python}
+#don't run the above one or else the html file will not show the code
+statistics.mean(cat_data)
+```
+And then dogs
+```{python}
+statistics.mean(dog_data)
+```
+```{python}
+#don't run the above one or else the html file will not show the code
+statistics.mean(dog_data)
+```
+  </div>
+</div>
+
+-----
+
+So we now know that dogs were taller than cats (unsurprisingly). Let's use t-tests to investigate whether this difference is statistically significant.
+
+
+<div id="ind_samples_div">
+  <button class="btn btn-primary hide_show">SPSS</button>
+  <button class="btn btn-primary hide_show">R</button>
+  <button class="btn btn-primary hide_show">Python</button>
+  <div class="spss_div">
+## Independent samples t-test using SPSS
+  </div>
+
+  <div class="r_div">
+## Independent samples t-test using R
+
+```{r}
+
+cat_dog_data <- read.csv("cats_dogs_height.csv") # in case you haven't already loaded the data
+
+cat.data = cat_dog_data$height[cat_dog_data$animal == "cat"]
+dog.data = cat_dog_data$height[cat_dog_data$animal == "dog"]
+
+t.test(cat.data,      #group 1s data
+       dog.data,      #group 2s data
+       paired = F,    #confirming that this is between-subjects/independent samples
+       var.equal = T) #we are currently assuming that the variance is equal between groups, and so can run a student's t-test. HOWEVER, we will challenge this assumption in a moment.
+
+```
+  As we can see in the output above, there's a VERY significant difference in heights between cats and dogs. Let's extract the most helpful snippets of information by storing this t-test as a variable and recalling the key details.
+  
+```{r}
+cat_dog_t_test <- t.test(cat.data,      #group 1s data
+                         dog.data,      #group 2s data
+                         paired = F,    #confirming that this is between-subjects/independent samples
+                         var.equal = T) #we are currently assuming that the variance is equal between groups, and so can run a student's t-test. HOWEVER, we will challenge this assumption in a moment.
+
+```
+Let's start with the p-value
+```{r}
+cat_dog_t_test$p.value
+```
+The p-value is much less than the .05 threshold needed for a significant result. In fact, we would write this as p < .001.
+
+Let's move on to the t-value:
+
+```{r}
+cat_dog_t_test$statistic
+```
+
+This is a high t-value, and interestingly it's negative. All this means is that the second condition had a higher mean than the first condition.
+  
+  
+  </div>
+  <div class="python_div">
+## Independent samples t-test using Python
+
+```{python}
+#print(a)
+##note that print() function blocks presenting of the python code!!
+
+a=5
+```
+  </div>
+</div>
+
+
+
+```{r}
+sd(cat_data)
+```
+```{r}
+sd(dog_data)
+```
+  
+
+# End of chapter questions!
+
+# would be good to have a way that there are MANY questions that users can contribute to help students consolidate their understanding. May need an elegant way to avoid this clogging up the ebooks though...
+
+
+<script src="page_management.js"></script>
