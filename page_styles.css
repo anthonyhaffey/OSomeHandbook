@@ -1,3 +1,9 @@
+.excel_div{
+  background-color: #d3ffdd;
+}
+.jasp_div{
+  background-color: #ffcef8;
+}
 .python_div{
   background-color: #ffc882;  
 }
@@ -6,7 +12,7 @@
   color:white;
 }
 .spss_div{
-  background-color: #43a5db;
+  background-color: #ff5b2d;
   color:white;
 }
 .spss_div,.r_div,.python_div{
