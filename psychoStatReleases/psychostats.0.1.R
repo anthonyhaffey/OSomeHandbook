@@ -25,6 +25,28 @@ poanova = function(this_data = this_data,        #how do I give insights into ea
     this_mauch <- mauchly.test(lm(data.matrix(within.frame) ~ 1), X= ~1)
     d <- 1 - ((2 * (( output$df_cond )^2)+( output$df_cond )+2)/(6*( output$df_cond )*(output$df_subjs)))
     this_mauch$est.chi <- as.numeric(-(output$df_subjs)*d*log(this_mauch$statistic))
+    
+    ## ez_anova hack to get the Greenhouse-Geiser and Hein-Feldt values - 
+    #  would welcome a more direct way to access these values 
+    ez_within = within.frame
+    ez_within$pp = 1:length(within.frame[,1])
+    ez_summary_data = melt(ez_within,
+                           id.vars =c("pp"),
+                           measure.vars=within)
+    
+    this_aov_ez <- aov_ez(id = "pp",
+                          dv = "value",
+                          data = ez_summary_data,
+                          within="variable",
+                          anova_table = "pes")
+    
+    summary(this_aov_ez)
+    ez_summary = summary(this_aov_ez)
+    this_mauch$gg_eps = ez_summary$pval.adjustments[colnames(ez_summary$pval.adjustments) == "GG eps"]
+    this_mauch$hf_eps = ez_summary$pval.adjustments[colnames(ez_summary$pval.adjustments) == "HF eps"]
+    
+    output$mauchley = this_mauch
+    
     output$mauchley = this_mauch
     
     ################################
