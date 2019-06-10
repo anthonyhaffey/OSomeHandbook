@@ -1,19 +1,26 @@
 # Psych Open Statistics - psychostats package - v 0.1 - One way ANOVAs only (with Mauchly test of sphericity)
 
+
+if(!require(reshape2)){install.packages("reshape2")}
+if(!require(Rfast)){install.packages("Rfast")}
+
 library("reshape2")
+library("Rfast")
 
 #source("https://raw.githubusercontent.com/anthonyhaffey/psychOpenStatsbook/master/psychoStatReleases/psychostats.0.1.R") 
 
-poanova = function(this_data = this_data,        #how do I give insights into each input?
-                   within = within,
-                   between = between_col){
+po_anova = function(this_data = this_data,          #how do I give insights into each input?
+                    within = within,
+                    between = between_col){
   
   #within-subject ANOVA
-  if(length(within)>1){               #the user is analysing wide rather than long data
+  if(length(within)>1){                            #the user is analysing wide rather than long data
     
     within.frame = subset(this_data,select=within) #this focuses on the relevant data for one-way
     #within-subject ANOVAs.
-    
+    output = list()
+    output$cond_k   = length(within)
+    output$subj_n   = length(this_data[,1])
     output$df_cond  = length(within.frame) - 1
     output$df_subjs = length(within.frame[,1]) - 1
     
@@ -25,6 +32,9 @@ poanova = function(this_data = this_data,        #how do I give insights into ea
     this_mauch <- mauchly.test(lm(data.matrix(within.frame) ~ 1), X= ~1)
     d <- 1 - ((2 * (( output$df_cond )^2)+( output$df_cond )+2)/(6*( output$df_cond )*(output$df_subjs)))
     this_mauch$est.chi <- as.numeric(-(output$df_subjs)*d*log(this_mauch$statistic))
+    
+    
+    
     
     ## ez_anova hack to get the Greenhouse-Geiser and Hein-Feldt values - 
     #  would welcome a more direct way to access these values 
@@ -47,7 +57,6 @@ poanova = function(this_data = this_data,        #how do I give insights into ea
     
     output$mauchley = this_mauch
     
-    output$mauchley = this_mauch
     
     ################################
     # One way within-subject ANOVA #
@@ -62,18 +71,46 @@ poanova = function(this_data = this_data,        #how do I give insights into ea
     }
     pp_means = rowMeans(within.frame)
     
+    output$ss_cond  = output$subj_n * sum((cond_means - mean(cond_means))^2)
+    output$ss_ws    = sum(ws_means)
+    output$ss_subjs = output$cond_k * sum((pp_means - mean(pp_means))^2)
+    output$ss_error = output$ss_ws - output$ss_subjs
+    output$ms_cond  = output$ss_cond/output$df_cond
+    output$ms_error = output$ss_error/(output$df_subjs * output$df_cond)
+    output$df_error = output$df_cond * output$df_subjs
+    output$f_value  = output$ms_cond/output$ms_error
+    output$p_value = pf(output$f_value, output$df_cond, output$df_error, lower.tail = F)
+    
+    
+    ####################
+    # Corrected values #
+    ####################
+    #Greenhouse-Geiser 
+    output$df_cond_gg  = output$df_cond * output$mauchley$gg_eps
+    output$df_error_gg = output$df_error * output$mauchley$gg_eps
+    output$p_value_gg  = pf(output$f_value, output$df_cond_gg, output$df_error_gg, lower.tail = F)
+    
+    #Huyn-Feldt
+    output$df_cond_hf  = output$df_cond * output$mauchley$hf_eps
+    output$df_error_hf = output$df_error * output$mauchley$hf_eps
+    output$p_value_hf  = pf(output$f_value, output$df_cond_hf, output$df_error_hf, lower.tail = F)
+    
     oneway = list()
-    oneway$subj_n   = length(this_data[,1])
-    oneway$cond_k   = length(within)
-    oneway$ss_cond  = output$subj_n * sum((cond_means - mean(cond_means))^2)
-    oneway$ss_ws    = sum(ws_means)
-    oneway$ss_subjs = output$cond_k * sum((pp_means - mean(pp_means))^2)
-    oneway$ss_error = output$ss_ws - output$ss_subjs
-    oneway$ms_cond  = output$ss_cond/output$df_cond
-    oneway$ms_error = output$ss_error/(output$df_subjs * output$df_cond)
-    oneway$df_error = output$df_cond * output$df_subjs
-    oneway$f_value  = output$ms_cond/output$ms_error
-    oneway$p_value = pf(output$f_value, output$df_cond, output$df_error, lower.tail = F)
+    oneway$ss_cond     = output$ss_cond 
+    oneway$ss_ws       = output$ss_ws   
+    oneway$ss_subjs    = output$ss_subjs
+    oneway$ss_error    = output$ss_error
+    oneway$ms_cond     = output$ms_cond 
+    oneway$ms_error    = output$ms_error
+    oneway$df_error    = output$df_error
+    oneway$f_value     = output$f_value 
+    oneway$p_value     = output$p_value
+    oneway$df_cond_gg  = output$df_cond_gg
+    oneway$df_error_gg = output$df_error_gg
+    oneway$p_value_gg  = output$p_value_gg
+    oneway$df_cond_hf  = output$df_cond_hf
+    oneway$df_error_hf = output$df_error_hf
+    oneway$p_value_hf  = output$p_value_hf
     output$oneway = oneway
     
     ### tidying up the above code
@@ -86,3 +123,8 @@ poanova = function(this_data = this_data,        #how do I give insights into ea
     
   }
 }
+# 
+# po_f_p_val <- function(this_list){
+#   
+#   
+# }
