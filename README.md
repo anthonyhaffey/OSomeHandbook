@@ -4,4 +4,4 @@ This is my attempt at making an open-access textbook for data research aimed at 
 
 For now, have a look at previews of the current chapter(s) below:
 
-T-tests:https://htmlpreview.github.io/?https://github.com/anthonyhaffey/psychOpenStatsbook/blob/master/ttests.nb.html
+<a href="https://anthonyhaffey.github.io/psychOpenStatsbook/ttests.nb.html"> T-tests</a>
