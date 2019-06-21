@@ -1,7 +1,7 @@
-# psychOpenStatsbook
+# Open-Streams(OS)-ome Handbook
 
-This is my attempt at making an open-access textbook for data research aimed at psychologists. Unlike other textbooks, this will always be free, welcome contributions from anyone (clone this repository and then make pull requests if you have an update you think that would help), and will teach you how to run your analyses using Excel, SPSS, JASP, R and Python!
+This will be a handbook how to use Open-Streams to create handbooks that are easy to annotate collaboratively, and publish articles in the future.
 
-For now, have a look at previews of the current chapter(s) below:
-
-<a href="https://anthonyhaffey.github.io/psychOpenStatsbook/ttests.nb.html"> T-tests</a>
+## Data analysis
+At the moment, there aren't plans to make this a comprehensive statistics book. Thus there'll be a focus on some exemplar statistical tests so that you can see how to complete analyses with a variety of packages and write them up with Open-Streams
+<a href="https://anthonyhaffey.github.io/OSomeHandbook/ttests.nb.html"> T-tests</a>
