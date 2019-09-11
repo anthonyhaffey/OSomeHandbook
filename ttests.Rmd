@@ -28,6 +28,8 @@ setwd("C:/Users/nt906822/OneDrive - University of Reading/Github/psychOpenStatsb
 ```
 
 
+<img src="test.png">
+
 T-tests are useful when we want to make comparisons between two conditions. These can either be <b>between
 groups</b> who are in different conditions, or <b>within groups</b> for participants who experience both conditions. 
 
@@ -192,5 +194,5 @@ sd(dog_data)
 
 <script src="page_management.js"></script>
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTI5Mjk5NzM4M119
+eyJoaXN0b3J5IjpbNDU0NDQ3ODc0LC0yOTI5OTczODNdfQ==
 -->
