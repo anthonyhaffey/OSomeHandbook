@@ -26,6 +26,8 @@ setwd("C:/Users/nt906822/OneDrive - University of Reading/Github/psychOpenStatsb
 
 ```
 
+# Checking if the update is going through on both google and github
+
 T-tests are useful when we want to make comparisons between two conditions. These can either be <b>between
 groups</b> who are in different conditions, or <b>within groups</b> for participants who experience both conditions. 
 
@@ -190,6 +192,6 @@ sd(dog_data)
 
 <script src="page_management.js"></script>
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNDEzMTgzNDE3LDE3MDE3MDUwMTQsNDU0ND
-Q3ODc0LC0yOTI5OTczODNdfQ==
+eyJoaXN0b3J5IjpbLTQyMzY0ODg2MSwxNzAxNzA1MDE0LDQ1ND
+Q0Nzg3NCwtMjkyOTk3MzgzXX0=
 -->
