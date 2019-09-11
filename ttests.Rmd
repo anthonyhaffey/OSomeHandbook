@@ -24,11 +24,7 @@ opts_knit$set(root.dir = this.root.dir)
 ##if not using a markdown or notebook, use the following
 setwd("C:/Users/nt906822/OneDrive - University of Reading/Github/psychOpenStatsbook/")
 
-
 ```
-
-
-<img src="https://raw.githubusercontent.com/anthonyhaffey/OSomeHandbook/master/test.png">
 
 T-tests are useful when we want to make comparisons between two conditions. These can either be <b>between
 groups</b> who are in different conditions, or <b>within groups</b> for participants who experience both conditions. 
@@ -194,6 +190,6 @@ sd(dog_data)
 
 <script src="page_management.js"></script>
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTcwMTcwNTAxNCw0NTQ0NDc4NzQsLTI5Mj
-k5NzM4M119
+eyJoaXN0b3J5IjpbNDEzMTgzNDE3LDE3MDE3MDUwMTQsNDU0ND
+Q3ODc0LC0yOTI5OTczODNdfQ==
 -->
